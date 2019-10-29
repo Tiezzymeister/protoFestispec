@@ -75,6 +75,8 @@
     <Compile Include="Domain\SliderQeustion.cs" />
     <Compile Include="Domain\TextQuestion.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\QuestionaireVM.cs" />
+    <Compile Include="ViewModel\QuestionVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

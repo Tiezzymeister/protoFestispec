@@ -17,17 +17,14 @@
             <Grid>
                 <StackPanel>
                     <Button x:Name="Vragenlijstmaken" Style="{StaticResource MenuButtonStyle}" >Vragenlijst maken</Button>
-
                 </StackPanel>
                 <Button x:Name="LogoutMenuItem" Style="{StaticResource LogoutButtonMenuStyle}" >Logout</Button>
             </Grid>
         </Border>
-        <StackPanel Grid.Column="2">
+        <StackPanel Grid.Column="2" Name="QuestionsPanel" >
             <Label Target="{Binding ElementName=FestivalName}" Content="Naam van het festival: "></Label>
             <TextBox Name="FestivalName"></TextBox>
-            
-            
-            
+            <Button Name="newQuestion" Content="Nieuwe vraag" ></Button>
         </StackPanel>
        
 

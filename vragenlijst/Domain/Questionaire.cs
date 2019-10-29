@@ -8,5 +8,13 @@ namespace vragenlijst.Domain
 {
     class Questionaire
     {
+        public List<Question> questions { get; set; }
+
+        public Questionaire()
+        {
+            
+        }
+               
     }
+
 }

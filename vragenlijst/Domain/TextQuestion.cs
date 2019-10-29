@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace vragenlijst.Domain
 {
-    class TextQuestion
+    class TextQuestion : Question
     {
+        public int MaxChars { get; set; }
+
+        public TextQuestion()
+        {
+
+        }
     }
 }
