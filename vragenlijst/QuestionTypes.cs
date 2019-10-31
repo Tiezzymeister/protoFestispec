@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vragenlijst.ViewModel
+namespace vragenlijst
 {
-    
-    public class QuestionVM
+    public enum QuestionTypes
     {
-        
+        SliderQuestion,
+        TextQuestion
+
     }
 }

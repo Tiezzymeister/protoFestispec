@@ -21,13 +21,25 @@
                 <Button x:Name="LogoutMenuItem" Style="{StaticResource LogoutButtonMenuStyle}" >Logout</Button>
             </Grid>
         </Border>
-        <StackPanel Grid.Column="2" Name="QuestionsPanel" >
-            <Label Target="{Binding ElementName=FestivalName}" Content="Naam van het festival: "></Label>
-            <TextBox Name="FestivalName"></TextBox>
-            <Button Name="newQuestion" Content="Nieuwe vraag" ></Button>
-        </StackPanel>
-       
-
-
+        <ListBox Grid.Column="1" Name="QuestionsPanel" BorderBrush="#FF6F6F70" >
+            <Button Name="newQuestion" Content="Nieuwe vraag" Command="{Binding NewQuestionBtn}" ></Button>
+        </ListBox>
+        <Border Panel.ZIndex="4" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" >
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Vraagtype: " FontSize="40"></Label>
+                    <ComboBox Width="900" Height="40" ItemsSource="{Binding QuestionType}" SelectedItem="{Binding SelectedType}" FontSize="30" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Vraag: " Target="{Binding ElementName=Question}"></Label>
+                    <TextBox Name="Question" Width="1061" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+                </StackPanel>
+                <StackPanel Name="TextQuestion" Visibility="{Binding NewTextQuestionVisibility}" Orientation="Horizontal">
+                    <Label Target="{Binding ElementName=MaxChars}" Content="Maximaal aantal letters: "></Label>
+                    <TextBox Name="MaxChars" SpellCheck.IsEnabled="True" Width="50"></TextBox>
+                </StackPanel>
+                <StackPanel
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

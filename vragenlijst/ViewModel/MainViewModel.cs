@@ -1,11 +1,13 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Ninjamanager.Domain;
+using vragenlijst.Domain;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
+using System;
+using System.Windows;
 
 namespace vragenlijst.ViewModel
 {
@@ -23,18 +25,63 @@ namespace vragenlijst.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        public ObservableCollection<QuestionVM>
+        public ObservableCollection<QuestionVM> Questions { get; set; }
+        private List<QuestionTypes> _questionTypes = new List<QuestionTypes>();
+        public List<QuestionTypes> QuestionType
+        {
+            get 
+            { 
+                return _questionTypes;
+            }
+            set
+            {
+                _questionTypes = value;
+                RaisePropertyChanged("QuestionType");
+            }
+        }
+
+        private QuestionTypes _selectedType = QuestionTypes.SliderQuestion;
+        public QuestionTypes SelectedType
+        {
+            get
+            {
+                return _selectedType;
+            }
+            set
+            {
+                _selectedType = value;
+                RaisePropertyChanged("SelectedTypes");
+            }
+        }
+
+        private Visibility _newQuestionVisibility = Visibility.Collapsed;
+        public Visibility NewQuestionVisibility
+        {
+            get
+            {
+                return _newQuestionVisibility;
+            }
+            set
+            {
+                _newQuestionVisibility = value;
+                RaisePropertyChanged("NewQuestionVisibility");
+            }
+        }
+        public ICommand NewQuestionBtn { get; set; }
         public MainViewModel()
         {
+
+            foreach(QuestionTypes q in Enum.GetValues(typeof(QuestionTypes)))
+            {
+                QuestionType.Add(q);
+            }
+            NewQuestionBtn = new RelayCommand(OpenQuestion );
             
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+
+        }
+        private void OpenQuestion()
+        {
+            NewQuestionVisibility = Visibility.Visible;
         }
     }
 }

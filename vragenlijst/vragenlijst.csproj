@@ -70,9 +70,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Domain\SliderQuestion.cs" />
+    <Compile Include="QuestionTypes.cs" />
     <Compile Include="Domain\Question.cs" />
     <Compile Include="Domain\Questionaire.cs" />
-    <Compile Include="Domain\SliderQeustion.cs" />
     <Compile Include="Domain\TextQuestion.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\QuestionaireVM.cs" />

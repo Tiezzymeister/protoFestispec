@@ -17,12 +17,19 @@ namespace vragenlijst.ViewModel
         }
         public List<Question> questions
         {
-            get { return questionaire.questions; }
+            get 
+            { 
+                return questionaire.questions; 
+            }
             set
             {
                 this.questionaire.questions = value;
             }
         }
+        public void addToList(Question question)
+        {
+            questionaire.questions.Add(question);
+        } 
  
     }
 
