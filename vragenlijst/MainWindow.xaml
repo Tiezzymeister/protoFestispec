@@ -38,7 +38,13 @@
                     <Label Target="{Binding ElementName=MaxChars}" Content="Maximaal aantal letters: "></Label>
                     <TextBox Name="MaxChars" SpellCheck.IsEnabled="True" Width="50"></TextBox>
                 </StackPanel>
-                <StackPanel
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="325" Height="35">
+                        <Button> 
+                            
+                        </Button> 
+                    </StackPanel>
+                </DockPanel>
             </StackPanel>
         </Border>
     </Grid>
