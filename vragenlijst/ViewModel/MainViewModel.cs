@@ -25,15 +25,15 @@ namespace vragenlijst.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        public SliderQuestionVM sliderQuestion{get;set;}
+        public SliderQuestionVM sliderQuestion { get; set; }
         public TextQuestionVM textQuestion { get; set; }
 
         public ObservableCollection<Question> Questions { get; set; }
         private List<QuestionTypes> _questionTypes = new List<QuestionTypes>();
         public List<QuestionTypes> QuestionType
         {
-            get 
-            { 
+            get
+            {
                 return _questionTypes;
             }
             set
@@ -42,6 +42,17 @@ namespace vragenlijst.ViewModel
                 RaisePropertyChanged("QuestionType");
             }
         }
+
+        private Question _selectedQuestion;
+        public Question SelectedQuestion { get
+            {
+                return _selectedQuestion;
+            }set
+            {
+                _selectedQuestion = value;
+            }
+        }
+
 
         private QuestionTypes _selectedType = QuestionTypes.TextQuestion;
         public QuestionTypes SelectedType
@@ -53,7 +64,7 @@ namespace vragenlijst.ViewModel
             set
             {
                 _selectedType = value;
-                if(_selectedType == QuestionTypes.TextQuestion)
+                if (_selectedType == QuestionTypes.TextQuestion)
                 {
                     SliderQuestionVisibility = Visibility.Collapsed;
                     TextQuestionVisibility = Visibility.Visible;
@@ -63,9 +74,9 @@ namespace vragenlijst.ViewModel
                     SliderQuestionVisibility = Visibility.Visible;
                     TextQuestionVisibility = Visibility.Collapsed;
                 }
-                
+
                 RaisePropertyChanged("SelectedTypes");
-            } 
+            }
         }
 
         private Visibility _newQuestionVisibility = Visibility.Collapsed;
@@ -79,6 +90,20 @@ namespace vragenlijst.ViewModel
             {
                 _newQuestionVisibility = value;
                 RaisePropertyChanged("NewQuestionVisibility");
+            }
+        }
+
+        private Visibility _editQuestionVisibility = Visibility.Collapsed;
+        public Visibility EditQuestionVisibility
+        {
+            get
+            {
+                return _editQuestionVisibility;
+            }
+            set
+            {
+                _editQuestionVisibility = value;
+                RaisePropertyChanged("EditQuestionVisibility");
             }
         }
 
@@ -110,10 +135,16 @@ namespace vragenlijst.ViewModel
         }
 
         public ICommand SwitchNewQuestionVisibility { get; set; }
+        public RelayCommand SwitchEditQuestionVisibility { get; set; }
         public ICommand SaveNewTextQuestion { get; set; }
         public ICommand SaveNewSliderQuestion { get; set; }
 
 
+        public ICommand DeleteSelectedQuestion { get; set; }
+        public ICommand EditSelectedItem { get; set; }
+
+
+        //TODO questionnumber, make question string separate
         public MainViewModel()
         {
             textQuestion = new TextQuestionVM();
@@ -127,10 +158,34 @@ namespace vragenlijst.ViewModel
 
 
             SwitchNewQuestionVisibility = new RelayCommand(SwitchQuestionVisibility );
+            SwitchEditQuestionVisibility = new RelayCommand(SwitchEditQVisibility);
             SaveNewTextQuestion = new RelayCommand(SaveTextQuestion);
             SaveNewSliderQuestion = new RelayCommand(SaveSliderQuestion);
-
-
+            DeleteSelectedQuestion = new RelayCommand(DeleteQuestion);
+            EditSelectedItem = new RelayCommand(EditQuestion);
+        }
+        private void SwitchEditQVisibility()
+        {
+            {
+                base.RaisePropertyChanged("Questions");
+                if (NewQuestionVisibility == Visibility.Collapsed)
+                {
+                    NewQuestionVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    NewQuestionVisibility = Visibility.Collapsed;
+                    textQuestion = new TextQuestionVM();
+                    sliderQuestion = new SliderQuestionVM();
+                    base.RaisePropertyChanged("textQuestion");
+                    base.RaisePropertyChanged("sliderQuestion");
+                }
+            }
+        }
+        private void EditQuestion()
+        {
+            SwitchEditQVisibility();
+            base.RaisePropertyChanged("Questions");
         }
 
         private void SaveSliderQuestion()
@@ -147,23 +202,24 @@ namespace vragenlijst.ViewModel
 
         private void SwitchQuestionVisibility()
         {
-
             base.RaisePropertyChanged("Questions");
-            if(NewQuestionVisibility == Visibility.Collapsed)
+            if(EditQuestionVisibility == Visibility.Collapsed)
             {
-                NewQuestionVisibility = Visibility.Visible;
+                EditQuestionVisibility = Visibility.Visible;
             }
             else
             {
-                NewQuestionVisibility = Visibility.Collapsed;
+                EditQuestionVisibility = Visibility.Collapsed;
                 textQuestion = new TextQuestionVM();
                 sliderQuestion = new SliderQuestionVM();
                 base.RaisePropertyChanged("textQuestion");
                 base.RaisePropertyChanged("sliderQuestion");
             }
-
-
-
+        }
+        private void DeleteQuestion()
+        {
+            Questions.Remove(_selectedQuestion);
+            base.RaisePropertyChanged("Questions");
         }
     }
 }

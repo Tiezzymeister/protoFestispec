@@ -12,21 +12,56 @@
     
     <Window.Resources>
         <local:QuestionDataTemplateSelector x:Key="myDataTemplateSelector"/>
-        
+
         <DataTemplate DataType="{x:Type dom:SliderQuestion}" x:Key="sliderQ">
-            <StackPanel>
-                <Label Content="{Binding QuestionString}" ContentStringFormat="Vraag: {0}" ></Label>
-                <Label Content="{Binding MinValue}" ContentStringFormat="Minimale nummmer: {0}"></Label>
-                <Label Content="{Binding MaxValue}" ContentStringFormat="Maximale nummmer: {0}"></Label>
-                <Label Content="{Binding StepSize}" ContentStringFormat="Stapgrootte: {0}"></Label>
-            </StackPanel>
+
+                <StackPanel Width="1450">
+                    <Label Content="{Binding QuestionString}" ContentStringFormat="Vraag: {0}" FontSize="18"></Label>
+                    <Label Content="{Binding MinValue}" ContentStringFormat="Minimale nummmer: {0}"></Label>
+                    <Label Content="{Binding MaxValue}" ContentStringFormat="Maximale nummmer: {0}"></Label>
+                    <Label Content="{Binding StepSize}" ContentStringFormat="Stapgrootte: {0}"></Label>
+                <Separator></Separator>
+                </StackPanel>
+
+
         </DataTemplate>
         <DataTemplate DataType="{x:Type dom:TextQuestion}" x:Key="textQ" >
             <StackPanel>
-                <Label Content="{Binding QuestionString}" ContentStringFormat="Vraag: {0}" ></Label>
+                <Label Content="{Binding QuestionString}" ContentStringFormat="Vraag: {0}" FontSize="18" ></Label>
                 <Label Content="{Binding MaxChars}" ContentStringFormat="Maximaal aantal letters: {0}"></Label>
+                <Separator></Separator>
             </StackPanel>
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type dom:SliderQuestion }" x:Key="editSliderQ">
+            <DockPanel  Name="SliderQuestion" Visibility="{Binding SliderQuestionVisibility}">
+                <StackPanel DockPanel.Dock="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Vraag: " ></Label>
+                        <TextBox Name="SliderQuestionText" Width="1061" HorizontalAlignment="Center" Text="{Binding QuestionString}" VerticalAlignment="Center"  />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Minimale getal "></Label>
+                        <TextBox Name="MinVal" Text="{Binding MinValue}" Width="50" Height="25"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label  Content="Maximale getal "></Label>
+                        <TextBox Name="MaxVal" Text="{Binding MaxValue}" Width="50" Height="25"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label  Content="stapgrootte "></Label>
+                        <TextBox Name="StepSize"  Text="{Binding StepSize}" Width="50" Height="25"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="1,275,1,325" Height="35">
+                    <Button Width="65" Margin="25,0,1025,0" Command="{Binding SwitchEditQuestionVisibility}">Cancel</Button>
+                    <Button Width="65" Command="{Binding EditSliderQuestion}" >Opslaan</Button>
+
+                </StackPanel>
+            </DockPanel>
+        </DataTemplate>
+        
+        
     </Window.Resources>
 
     <Grid>
@@ -43,11 +78,15 @@
             </Grid>
         </Border>
         <StackPanel Grid.Column="1">
-            <ListBox Grid.Column="1" Name="QuestionsPanel" BorderBrush="#FF6F6F70" ItemsSource="{Binding Questions, Mode=OneWay}" Height="900" ItemTemplateSelector="{StaticResource myDataTemplateSelector}">
+            <ListBox Grid.Column="1" Name="QuestionsPanel" BorderBrush="#FF6F6F70" ItemsSource="{Binding Questions, Mode=OneWay}" MaxHeight="975" ItemTemplateSelector="{StaticResource myDataTemplateSelector}" SelectedItem="{Binding SelectedQuestion}" MouseDoubleClick="{Binding EditSelectedItem}">
             </ListBox>
-            <Button Name="newQuestion" Content="Nieuwe vraag" Command="{Binding SwitchNewQuestionVisibility}" Width="200" Height="46" FontSize="20" ></Button>
+            <StackPanel Orientation="Horizontal">
+                <Button Name="newQuestion" Content="Nieuwe vraag" Command="{Binding SwitchNewQuestionVisibility}" Width="200" Height="46" FontSize="20" ></Button>
+                <Button Content="Verwijderen" Command="{Binding DeleteSelectedQuestion}" Width="200" Height="46" FontSize="20"></Button>
+            </StackPanel>
+
         </StackPanel>
-        <Border Panel.ZIndex="2" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" Visibility="{Binding NewQuestionVisibility}" >
+        <Border Panel.ZIndex="2" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" Visibility="{Binding NewQuestionVisibility}" Background="White">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Vraagtype: " FontSize="40"></Label>
@@ -63,7 +102,6 @@
                             <Label Content="Maximaal aantal letters: "></Label>
                             <TextBox Name="MaxChars" Width="50" Height="25" Text="{Binding textQuestion.MaxChars}"></TextBox>
                         </StackPanel>
-
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="1,325,1,325" Height="35">
                         <Button Width="65" Margin="25,0,1025,0" Command="{Binding SwitchNewQuestionVisibility}">Cancel</Button>
@@ -97,5 +135,11 @@
                 </DockPanel>
             </StackPanel>
         </Border>
+        <Border Panel.ZIndex="2" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" Visibility="{Binding EditQuestionVisibility}" Background="White">
+            <ItemsControl ItemsSource="{Binding SelectedQuestion}" ItemTemplateSelector="{StaticResource myDataTemplateSelector}">
+                
+            </ItemsControl>
+        </Border>
+
     </Grid>
 </Window>
