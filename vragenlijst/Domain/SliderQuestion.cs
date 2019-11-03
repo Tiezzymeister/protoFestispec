@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace vragenlijst.Domain
 {
-    public class SliderQuestion : Question
+    public class SliderQuestion: Question
     {
+
         public int MaxValue { get; set; }
         public int MinValue { get; set; }
         public int StepSize { get; set; }
+        public override string QuestionString { get ; set; }
 
         public SliderQuestion()
         {
-
         }
     }
 }

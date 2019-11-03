@@ -25,7 +25,10 @@ namespace vragenlijst.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        public ObservableCollection<QuestionVM> Questions { get; set; }
+        public SliderQuestionVM sliderQuestion{get;set;}
+        public TextQuestionVM textQuestion { get; set; }
+
+        public ObservableCollection<Question> Questions { get; set; }
         private List<QuestionTypes> _questionTypes = new List<QuestionTypes>();
         public List<QuestionTypes> QuestionType
         {
@@ -40,7 +43,7 @@ namespace vragenlijst.ViewModel
             }
         }
 
-        private QuestionTypes _selectedType = QuestionTypes.SliderQuestion;
+        private QuestionTypes _selectedType = QuestionTypes.TextQuestion;
         public QuestionTypes SelectedType
         {
             get
@@ -50,8 +53,19 @@ namespace vragenlijst.ViewModel
             set
             {
                 _selectedType = value;
+                if(_selectedType == QuestionTypes.TextQuestion)
+                {
+                    SliderQuestionVisibility = Visibility.Collapsed;
+                    TextQuestionVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    SliderQuestionVisibility = Visibility.Visible;
+                    TextQuestionVisibility = Visibility.Collapsed;
+                }
+                
                 RaisePropertyChanged("SelectedTypes");
-            }
+            } 
         }
 
         private Visibility _newQuestionVisibility = Visibility.Collapsed;
@@ -67,21 +81,89 @@ namespace vragenlijst.ViewModel
                 RaisePropertyChanged("NewQuestionVisibility");
             }
         }
-        public ICommand NewQuestionBtn { get; set; }
+
+        private Visibility _textQuestionVisibity = Visibility.Visible;
+        public Visibility TextQuestionVisibility
+        {
+            get
+            {
+                return _textQuestionVisibity;
+            }
+            set
+            {
+                _textQuestionVisibity = value;
+                RaisePropertyChanged("TextQuestionVisibility");
+            }
+        }
+        private Visibility _sliderQuestionVisibity = Visibility.Collapsed;
+        public Visibility SliderQuestionVisibility
+        {
+            get
+            {
+                return _sliderQuestionVisibity;
+            }
+            set
+            {
+                _sliderQuestionVisibity = value;
+                RaisePropertyChanged("SliderQuestionVisibility");
+            }
+        }
+
+        public ICommand SwitchNewQuestionVisibility { get; set; }
+        public ICommand SaveNewTextQuestion { get; set; }
+        public ICommand SaveNewSliderQuestion { get; set; }
+
+
         public MainViewModel()
         {
+            textQuestion = new TextQuestionVM();
+            sliderQuestion = new SliderQuestionVM();
+            Questions = new ObservableCollection<Question>();
 
             foreach(QuestionTypes q in Enum.GetValues(typeof(QuestionTypes)))
             {
                 QuestionType.Add(q);
             }
-            NewQuestionBtn = new RelayCommand(OpenQuestion );
-            
+
+
+            SwitchNewQuestionVisibility = new RelayCommand(SwitchQuestionVisibility );
+            SaveNewTextQuestion = new RelayCommand(SaveTextQuestion);
+            SaveNewSliderQuestion = new RelayCommand(SaveSliderQuestion);
+
 
         }
-        private void OpenQuestion()
+
+        private void SaveSliderQuestion()
         {
-            NewQuestionVisibility = Visibility.Visible;
+            Questions.Add(sliderQuestion.ToModel());
+            SwitchQuestionVisibility();
+        }
+
+        private void SaveTextQuestion()
+        {
+            Questions.Add(textQuestion.ToModel());
+            SwitchQuestionVisibility();
+        }
+
+        private void SwitchQuestionVisibility()
+        {
+
+            base.RaisePropertyChanged("Questions");
+            if(NewQuestionVisibility == Visibility.Collapsed)
+            {
+                NewQuestionVisibility = Visibility.Visible;
+            }
+            else
+            {
+                NewQuestionVisibility = Visibility.Collapsed;
+                textQuestion = new TextQuestionVM();
+                sliderQuestion = new SliderQuestionVM();
+                base.RaisePropertyChanged("textQuestion");
+                base.RaisePropertyChanged("sliderQuestion");
+            }
+
+
+
         }
     }
 }

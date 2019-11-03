@@ -4,10 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:vragenlijst"
+        xmlns:dom="clr-namespace:vragenlijst.Domain"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920"
         MinWidth="1080" MinHeight="720"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
+    
+    <Window.Resources>
+        <local:QuestionDataTemplateSelector x:Key="myDataTemplateSelector"/>
+        
+        <DataTemplate DataType="{x:Type dom:SliderQuestion}" x:Key="sliderQ">
+            <StackPanel>
+                <Label Content="{Binding QuestionString}" ContentStringFormat="Vraag: {0}" ></Label>
+                <Label Content="{Binding MinValue}" ContentStringFormat="Minimale nummmer: {0}"></Label>
+                <Label Content="{Binding MaxValue}" ContentStringFormat="Maximale nummmer: {0}"></Label>
+                <Label Content="{Binding StepSize}" ContentStringFormat="Stapgrootte: {0}"></Label>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type dom:TextQuestion}" x:Key="textQ" >
+            <StackPanel>
+                <Label Content="{Binding QuestionString}" ContentStringFormat="Vraag: {0}" ></Label>
+                <Label Content="{Binding MaxChars}" ContentStringFormat="Maximaal aantal letters: {0}"></Label>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="433"/>
@@ -21,28 +42,57 @@
                 <Button x:Name="LogoutMenuItem" Style="{StaticResource LogoutButtonMenuStyle}" >Logout</Button>
             </Grid>
         </Border>
-        <ListBox Grid.Column="1" Name="QuestionsPanel" BorderBrush="#FF6F6F70" >
-            <Button Name="newQuestion" Content="Nieuwe vraag" Command="{Binding NewQuestionBtn}" ></Button>
-        </ListBox>
-        <Border Panel.ZIndex="4" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" >
+        <StackPanel Grid.Column="1">
+            <ListBox Grid.Column="1" Name="QuestionsPanel" BorderBrush="#FF6F6F70" ItemsSource="{Binding Questions, Mode=OneWay}" Height="900" ItemTemplateSelector="{StaticResource myDataTemplateSelector}">
+            </ListBox>
+            <Button Name="newQuestion" Content="Nieuwe vraag" Command="{Binding SwitchNewQuestionVisibility}" Width="200" Height="46" FontSize="20" ></Button>
+        </StackPanel>
+        <Border Panel.ZIndex="2" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" Visibility="{Binding NewQuestionVisibility}" >
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Vraagtype: " FontSize="40"></Label>
                     <ComboBox Width="900" Height="40" ItemsSource="{Binding QuestionType}" SelectedItem="{Binding SelectedType}" FontSize="30" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Vraag: " Target="{Binding ElementName=Question}"></Label>
-                    <TextBox Name="Question" Width="1061" HorizontalAlignment="Center" VerticalAlignment="Center"  />
-                </StackPanel>
-                <StackPanel Name="TextQuestion" Visibility="{Binding NewTextQuestionVisibility}" Orientation="Horizontal">
-                    <Label Target="{Binding ElementName=MaxChars}" Content="Maximaal aantal letters: "></Label>
-                    <TextBox Name="MaxChars" SpellCheck.IsEnabled="True" Width="50"></TextBox>
-                </StackPanel>
-                <DockPanel>
-                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="325" Height="35">
-                        <Button> 
-                            
-                        </Button> 
+                <DockPanel Name="TextQuestion" Visibility="{Binding TextQuestionVisibility}" >
+                    <StackPanel DockPanel.Dock="Top" >
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Vraag: "></Label>
+                            <TextBox Name="TextQuestionText" Width="1061" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding textQuestion.Question}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Maximaal aantal letters: "></Label>
+                            <TextBox Name="MaxChars" Width="50" Height="25" Text="{Binding textQuestion.MaxChars}"></TextBox>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="1,325,1,325" Height="35">
+                        <Button Width="65" Margin="25,0,1025,0" Command="{Binding SwitchNewQuestionVisibility}">Cancel</Button>
+                        <Button Width="65" Command="{Binding SaveNewTextQuestion}" >Opslaan</Button>
+                    </StackPanel>
+                </DockPanel>
+                <DockPanel  Name="SliderQuestion" Visibility="{Binding SliderQuestionVisibility}">
+                    <StackPanel DockPanel.Dock="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Vraag: " ></Label>
+                            <TextBox Name="SliderQuestionText" Width="1061" HorizontalAlignment="Center" Text="{Binding sliderQuestion.Question}" VerticalAlignment="Center"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Minimale getal "></Label>
+                            <TextBox Name="MinVal" Text="{Binding sliderQuestion.MinVal}" Width="50" Height="25"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label  Content="Maximale getal "></Label>
+                            <TextBox Name="MaxVal" Text="{Binding sliderQuestion.MaxVal}" Width="50" Height="25"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label  Content="stapgrootte "></Label>
+                            <TextBox Name="StepSize"  Text="{Binding sliderQuestion.Stepsize}" Width="50" Height="25"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="1,275,1,325" Height="35">
+                        <Button Width="65" Margin="25,0,1025,0" Command="{Binding SwitchNewQuestionVisibility}">Cancel</Button>
+                        <Button Width="65" Command="{Binding SaveNewSliderQuestion}" >Opslaan</Button>
+
                     </StackPanel>
                 </DockPanel>
             </StackPanel>

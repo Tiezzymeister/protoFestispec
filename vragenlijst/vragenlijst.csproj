@@ -71,13 +71,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Domain\SliderQuestion.cs" />
+    <Compile Include="QuestionTemplateSelector.cs" />
     <Compile Include="QuestionTypes.cs" />
     <Compile Include="Domain\Question.cs" />
     <Compile Include="Domain\Questionaire.cs" />
     <Compile Include="Domain\TextQuestion.cs" />
+    <Compile Include="ViewModel\InvalStepSizeException.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\MinValHigherThanMaxValException.cs" />
     <Compile Include="ViewModel\QuestionaireVM.cs" />
-    <Compile Include="ViewModel\QuestionVM.cs" />
+    <Compile Include="ViewModel\SliderQuestionVM.cs" />
+    <Compile Include="ViewModel\TextQuestionVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

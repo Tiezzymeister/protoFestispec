@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace vragenlijst.Domain
 {
-    class TextQuestion : Question
+    public class TextQuestion : Question
     {
         public int MaxChars { get; set; }
+        public override string QuestionString { get ; set; }
 
         public TextQuestion()
         {

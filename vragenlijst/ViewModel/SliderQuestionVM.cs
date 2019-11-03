@@ -7,32 +7,75 @@ using vragenlijst.Domain;
 
 namespace vragenlijst.ViewModel
 {
-    public class SliderQuestionVM : QuestionVM
+    public class SliderQuestionVM
     {
-        public SliderQuestion sliderQuestion;
+
+        private SliderQuestion sliderQuestion;
+
         public SliderQuestionVM()
         {
             sliderQuestion = new SliderQuestion();
         }
-        public int MaxVal { 
-            get
-            {
-                return sliderQuestion.MaxValue;
-            } 
-            set 
-            {
-                sliderQuestion.MaxValue = value;
-            }   
-        }
-        public int MinValue
+        public string Question
         {
             get
             {
-                return sliderQuestion.MinValue;
+                return sliderQuestion.QuestionString;
             }
             set
             {
-                sliderQuestion.MinValue = value;
+                sliderQuestion.QuestionString = value;
+            }
+        }
+
+        public int MinVal
+        {
+            get
+            {
+                try
+                {
+                    return sliderQuestion.MinValue;
+
+                }
+                catch (NullReferenceException)
+                {
+                    return 0;
+                }
+            }
+            set
+            {
+                //if (value > MaxVal)
+                //{
+                //    throw new MinValHigherThanMaxValException();
+                //}
+                //else
+                //{
+                    sliderQuestion.MinValue = value;
+                //}
+
+            }
+        }
+        public int MaxVal
+        {
+            get
+            {
+                try
+                {
+                    return sliderQuestion.MaxValue;
+                }
+                catch (NullReferenceException)
+                {
+                    return 99999999;
+                }
+                
+            }
+            set
+            {
+                //if (value < MinVal)
+                //{
+                //    throw new MinValHigherThanMaxValException();
+                //}
+                sliderQuestion.MaxValue = value;
             }
         }
         public int Stepsize
@@ -43,13 +86,22 @@ namespace vragenlijst.ViewModel
             }
             set
             {
-                sliderQuestion.StepSize = value;
+                //if( value > MaxVal || value <= 0)
+                //{
+                //    throw new InvalStepSizeException();
+                //}
+                //else
+                //{
+                    sliderQuestion.StepSize = value;
+                //}
+
             }
         }
         public SliderQuestion ToModel()
         {
             return sliderQuestion;
         }
+
     }
 }
     
