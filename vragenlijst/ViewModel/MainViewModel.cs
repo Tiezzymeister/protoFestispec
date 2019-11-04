@@ -135,7 +135,7 @@ namespace vragenlijst.ViewModel
         }
 
         public ICommand SwitchNewQuestionVisibility { get; set; }
-        public RelayCommand SwitchEditQuestionVisibility { get; set; }
+        public ICommand SwitchEditQuestionVisibility { get; set; }
         public ICommand SaveNewTextQuestion { get; set; }
         public ICommand SaveNewSliderQuestion { get; set; }
 
@@ -168,13 +168,13 @@ namespace vragenlijst.ViewModel
         {
             {
                 base.RaisePropertyChanged("Questions");
-                if (NewQuestionVisibility == Visibility.Collapsed)
+                if (EditQuestionVisibility == Visibility.Collapsed)
                 {
-                    NewQuestionVisibility = Visibility.Visible;
+                    EditQuestionVisibility = Visibility.Visible;
                 }
                 else
                 {
-                    NewQuestionVisibility = Visibility.Collapsed;
+                    EditQuestionVisibility = Visibility.Collapsed;
                     textQuestion = new TextQuestionVM();
                     sliderQuestion = new SliderQuestionVM();
                     base.RaisePropertyChanged("textQuestion");
@@ -203,13 +203,13 @@ namespace vragenlijst.ViewModel
         private void SwitchQuestionVisibility()
         {
             base.RaisePropertyChanged("Questions");
-            if(EditQuestionVisibility == Visibility.Collapsed)
+            if(NewQuestionVisibility == Visibility.Collapsed)
             {
-                EditQuestionVisibility = Visibility.Visible;
+                NewQuestionVisibility = Visibility.Visible;
             }
             else
             {
-                EditQuestionVisibility = Visibility.Collapsed;
+                NewQuestionVisibility = Visibility.Collapsed;
                 textQuestion = new TextQuestionVM();
                 sliderQuestion = new SliderQuestionVM();
                 base.RaisePropertyChanged("textQuestion");

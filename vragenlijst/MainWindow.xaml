@@ -78,7 +78,7 @@
             </Grid>
         </Border>
         <StackPanel Grid.Column="1">
-            <ListBox Grid.Column="1" Name="QuestionsPanel" BorderBrush="#FF6F6F70" ItemsSource="{Binding Questions, Mode=OneWay}" MaxHeight="975" ItemTemplateSelector="{StaticResource myDataTemplateSelector}" SelectedItem="{Binding SelectedQuestion}" MouseDoubleClick="{Binding EditSelectedItem}">
+            <ListBox Grid.Column="1" Name="QuestionsPanel" BorderBrush="#FF6F6F70" ItemsSource="{Binding Questions, Mode=OneWay}" MaxHeight="975" ItemTemplateSelector="{StaticResource myDataTemplateSelector}" SelectedItem="{Binding SelectedQuestion}" >
             </ListBox>
             <StackPanel Orientation="Horizontal">
                 <Button Name="newQuestion" Content="Nieuwe vraag" Command="{Binding SwitchNewQuestionVisibility}" Width="200" Height="46" FontSize="20" ></Button>
@@ -86,7 +86,7 @@
             </StackPanel>
 
         </StackPanel>
-        <Border Panel.ZIndex="2" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" Visibility="{Binding NewQuestionVisibility}" Background="White">
+        <Border Panel.ZIndex="2" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" Visibility="{Binding NewQuestionVisibility}" >
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Vraagtype: " FontSize="40"></Label>
@@ -102,6 +102,7 @@
                             <Label Content="Maximaal aantal letters: "></Label>
                             <TextBox Name="MaxChars" Width="50" Height="25" Text="{Binding textQuestion.MaxChars}"></TextBox>
                         </StackPanel>
+
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="1,325,1,325" Height="35">
                         <Button Width="65" Margin="25,0,1025,0" Command="{Binding SwitchNewQuestionVisibility}">Cancel</Button>
@@ -134,11 +135,6 @@
                     </StackPanel>
                 </DockPanel>
             </StackPanel>
-        </Border>
-        <Border Panel.ZIndex="2" Grid.Column="1" Width="1200" Height="500" BorderThickness="1" BorderBrush="Black" Visibility="{Binding EditQuestionVisibility}" Background="White">
-            <ItemsControl ItemsSource="{Binding SelectedQuestion}" ItemTemplateSelector="{StaticResource myDataTemplateSelector}">
-                
-            </ItemsControl>
         </Border>
 
     </Grid>
