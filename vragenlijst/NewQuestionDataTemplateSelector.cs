@@ -9,7 +9,7 @@ using vragenlijst.Domain;
 
 namespace vragenlijst
 {
-    public class QuestionDataTemplateSelector : DataTemplateSelector
+    public class NewQuestionDataTemplateSelector : DataTemplateSelector
     {
         public override DataTemplate
             SelectTemplate(object item, DependencyObject container)

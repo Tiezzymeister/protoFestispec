@@ -71,7 +71,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Domain\SliderQuestion.cs" />
-    <Compile Include="QuestionTemplateSelector.cs" />
+    <Compile Include="EditQuestionDataTemplateSelector.cs" />
+    <Compile Include="NewQuestionDataTemplateSelector.cs" />
     <Compile Include="QuestionTypes.cs" />
     <Compile Include="Domain\Question.cs" />
     <Compile Include="Domain\Questionaire.cs" />

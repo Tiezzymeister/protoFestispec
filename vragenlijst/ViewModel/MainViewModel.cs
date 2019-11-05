@@ -50,6 +50,7 @@ namespace vragenlijst.ViewModel
             }set
             {
                 _selectedQuestion = value;
+                base.RaisePropertyChanged("SelectedQuestion");
             }
         }
 
@@ -141,7 +142,6 @@ namespace vragenlijst.ViewModel
 
 
         public ICommand DeleteSelectedQuestion { get; set; }
-        public ICommand EditSelectedItem { get; set; }
 
 
         //TODO questionnumber, make question string separate
@@ -162,9 +162,8 @@ namespace vragenlijst.ViewModel
             SaveNewTextQuestion = new RelayCommand(SaveTextQuestion);
             SaveNewSliderQuestion = new RelayCommand(SaveSliderQuestion);
             DeleteSelectedQuestion = new RelayCommand(DeleteQuestion);
-            EditSelectedItem = new RelayCommand(EditQuestion);
         }
-        private void SwitchEditQVisibility()
+        public void SwitchEditQVisibility()
         {
             {
                 base.RaisePropertyChanged("Questions");
